@@ -12,7 +12,7 @@
 
 @protocol PThread;
 
-@interface BChatViewController : ElmChatViewController<ElmChatViewDelegate> {
+@interface BChatViewController : ElmChatViewController<ElmChatViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     id<PThread> _thread;
     
     BOOL _usersViewLoaded;
@@ -22,6 +22,7 @@
 
 @property (nonatomic, readonly) id<PThread> thread;
 @property (nonatomic, readwrite) BOOL usersViewLoaded;
+@property (nonatomic, readwrite) UIPopoverController *popover;
 
 -(instancetype) initWithThread: (id<PThread>) thread;
 - (void) updateSubtitle;
