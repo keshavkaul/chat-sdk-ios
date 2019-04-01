@@ -9,7 +9,7 @@
 #ifndef ChatCore_h
 #define ChatCore_h
 
-#define bCoreBundleName @"Frameworks/ChatSDK.framework/ChatCore"
+#define bCoreBundleName @"ChatCore"
 
 #import <RXPromise/RXPromise.h>
 #import <RXPromise/RXPromise+RXExtension.h>
