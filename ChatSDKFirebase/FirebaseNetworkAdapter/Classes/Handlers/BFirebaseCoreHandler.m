@@ -70,26 +70,41 @@
     }
     else {
         threadModel = [self createThreadWithUsers:users name:name type: type];
-        CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
-        
-        return [thread push].thenOnMain(^id(id<PThread> thread) {
-                        
-            // Add the users to the thread
-            if (threadCreated != Nil) {
-                threadCreated(Nil, thread);
-            }
-            return [self addUsers:threadModel.users.allObjects toThread:threadModel];
-            
-        },^id(NSError * error) {
-            //[BChatSDK.db undo];
-            
-            if (threadCreated != Nil) {
-                threadCreated(error, Nil);
-            }
-            return error;
-        });
+        return [self createThreadWithThreadModel:threadModel threadCreated:threadCreated];
     }
 }
+
+-(RXPromise *) createThreadWithThreadModel: (id<PThread>) threadModel
+                             threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    CCThreadWrapper * thread = [CCThreadWrapper threadWithModel:threadModel];
+    return [thread push].thenOnMain(^id(id<PThread> thread) {
+        
+        // Add the users to the thread
+        if (threadCreated != Nil) {
+            threadCreated(Nil, thread);
+        }
+        return [self addUsers:threadModel.users.allObjects toThread:threadModel];
+        
+    },^id(NSError * error) {
+        //[BChatSDK.db undo];
+        
+        if (threadCreated != Nil) {
+            threadCreated(error, Nil);
+        }
+        return error;
+    });
+}
+
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                            threadId: (NSString *) threadId
+                          threadName: (NSString *) threadName
+                                type: (bThreadType) type
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated {
+    id<PThread> threadModel = [self createThreadWithUsers: users name:threadName type:type];
+    threadModel.entityID = threadId;
+    return [self createThreadWithThreadModel:threadModel threadCreated:threadCreated];
+}
+
 
 -(RXPromise *) addUsers: (NSArray *) users toThread: (id<PThread>) threadModel {
     

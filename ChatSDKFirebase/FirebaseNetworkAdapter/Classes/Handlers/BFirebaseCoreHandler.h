@@ -21,4 +21,10 @@
 +(NSDate *) timestampToDate: (NSNumber *) timestamp;
 
 
+-(RXPromise *) createThreadWithUsers: (NSArray *) users
+                            threadId: (NSString *) threadId
+                          threadName: (NSString *) threadName
+                                type: (bThreadType) type
+                       threadCreated: (void(^)(NSError * error, id<PThread> thread)) threadCreated;
+
 @end
