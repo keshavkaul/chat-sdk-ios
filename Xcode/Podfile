@@ -1,11 +1,13 @@
 source 'https://github.com/CocoaPods/Specs.git'
-inhibit_all_warnings!
-use_frameworks!
+# inhibit_all_warnings!
+# use_frameworks!
 
 # install! 'cocoapods', :disable_input_output_paths => true
 
 target 'ChatSDK Demo' do
   
+  pod 'Hakawai', '~> 5.1.5', :modular_headers => true
+  pod 'ChatSDKKeepLayout', :git => 'https://github.com/keshavkaul/KeepLayout.git', :branch => 'team-master', :modular_headers => true
   pod "ChatSDK", :path => "../"
   pod "ChatSDKFirebase/Adapter", :path => "../"
   pod "ChatSDKFirebase/FileStorage", :path => "../"
@@ -27,7 +29,7 @@ target 'ChatSDK Demo' do
 
   # Crashlytics see: https://firebase.google.com/docs/crashlytics/get-started?authuser=0
 
-#   pod 'Fabric', '~> 1.7.6'
+  pod 'Fabric', '~> 1.7.6'
   pod 'Crashlytics', '~> 3.10.1'
   
 end
